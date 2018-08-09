@@ -1,0 +1,3 @@
+[submodule "osim-rl"]
+	path = osim-rl
+	url = https://github.com/stanfordnmbl/osim-rl.git
