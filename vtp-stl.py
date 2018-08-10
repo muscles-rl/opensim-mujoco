@@ -8,6 +8,7 @@ def vtp_to_stl(file_in, file_out):
     reader.SetFileName(file_in)
     writer = vtk.vtkSTLWriter()
     writer.SetFileName(file_out)
+    writer.SetFileTypeToBinary();
     writer.SetInputConnection(reader.GetOutputPort())
     writer.Write()
 
