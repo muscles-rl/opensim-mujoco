@@ -7,9 +7,9 @@ def vtp_to_stl(file_in, file_out):
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(file_in)
     writer = vtk.vtkSTLWriter()
+    writer.SetInputConnection(reader.GetOutputPort())
     writer.SetFileName(file_out)
     writer.SetFileTypeToBinary();
-    writer.SetInputConnection(reader.GetOutputPort())
     writer.Write()
 
 DIR_IN = "osim-rl/osim/models/Geometry/"

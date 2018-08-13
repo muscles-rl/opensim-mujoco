@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mujoco model="floor">
+  <compiler boundmass="1e-05" boundinertia="1e-11" balanceinertia="true" coordinate="local" angle="radian" eulerseq="xyz"/>
+  <option timestep="0.002" cone="elliptic" noslip_iterations="5" noslip_tolerance="0.0"/>
+  <size njmax="500" nconmax="150"/>
+  <visual>
+    <headlight ambient="0.4 0.4 0.4" diffuse="0.8 0.8 0.8" specular="0.1 0.1 0.1"/>
+    <map znear="0.01"/>
+    <scale forcewidth="0.01" contactwidth="0.06" contactheight="0.01" jointwidth="0.01" framelength="0.3" framewidth="0.01"/>
+  </visual>
+  <default>
+    <default class="/"/>
+    <default class="walker/">
+      <joint solimplimit="0. 0.99 0.01" stiffness="1.0" armature="0.01" damping="0.05"/>
+      <equality solimp="0 0.999 0.0001"/>
+      <tendon stiffness="40.0"/>
+      <general ctrllimited="true" ctrlrange="-1. 0." dyntype="filter" dynprm="0.1"/>
+      <default class="walker/wrapping">
+        <geom type="cylinder" contype="0" conaffinity="0" group="3" rgba="0.5 0.5 0.5 0.2" mass="0.0"/>
+      </default>
+      <default class="walker/upper_joint">
+        <joint stiffness="5.0" armature="0.1" damping="2.0"/>
+      </default>
+      <default class="walker/direct">
+        <general ctrlrange="-1. 1."/>
+      </default>
+    </default>
+  </default>
+  <asset>
+    <texture name="groundplane" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" mark="edge" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texrepeat="3. 3." texuniform="true" reflectance="0.2" class="/"/>
+    <mesh name="walker/bofoot" file="Geometry/bofoot.stl" class="walker/"/>
+    <mesh name="walker/foot" file="Geometry/foot.stl" class="walker/"/>
+    <mesh name="walker/talus" file="Geometry/talus.stl" class="walker/"/>
+    <mesh name="walker/tibia" file="Geometry/tibia.stl" class="walker/"/>
+    <mesh name="walker/fibula" file="Geometry/fibula.stl" class="walker/"/>
+    <mesh name="walker/femur" file="Geometry/femur.stl" class="walker/"/>
+    <mesh name="walker/l_bofoot" file="Geometry/l_bofoot.stl" class="walker/"/>
+    <mesh name="walker/l_foot" file="Geometry/l_foot.stl" class="walker/"/>
+    <mesh name="walker/l_talus" file="Geometry/l_talus.stl" class="walker/"/>
+    <mesh name="walker/l_tibia" file="Geometry/l_tibia.stl" class="walker/"/>
+    <mesh name="walker/l_fibula" file="Geometry/l_fibula.stl" class="walker/"/>
+    <mesh name="walker/l_femur" file="Geometry/l_femur.stl" class="walker/"/>
+    <mesh name="walker/hat_spine" file="Geometry/hat_spine.stl" class="walker/"/>
+    <mesh name="walker/hat_jaw" file="Geometry/hat_jaw.stl" class="walker/"/>
+    <mesh name="walker/hat_skull" file="Geometry/hat_skull.stl" class="walker/"/>
+    <mesh name="walker/hat_ribs" file="Geometry/hat_ribs.stl" class="walker/"/>
+    <mesh name="walker/sacrum" file="Geometry/sacrum.stl" class="walker/"/>
+    <mesh name="walker/pelvis" file="Geometry/pelvis.stl" class="walker/"/>
+    <mesh name="walker/l_pelvis" file="Geometry/l_pelvis.stl" class="walker/"/>
+  </asset>
+  <worldbody>
+    <geom name="groundplane" type="plane" size="8. 8. 0.5" material="groundplane" class="/"/>
+    <camera name="top_camera" fovy="10.0581471636" pos="0. 0. 100." zaxis="0. 0. 1." class="/"/>
+    <body name="walker/">
+      <joint armature="0" axis="1 0 0" damping="0" limited="false" name="walker/rootx" pos="0 0 0" stiffness="0" type="slide"/>
+      <joint armature="0" axis="0 0 1" damping="0" limited="false" name="walker/rooty" pos="0 0 0" stiffness="0" type="slide"/>
+      <joint armature="0" axis="0 1 0" damping="0" limited="false" name="walker/rootr" pos="0 0 1.25" stiffness="0" type="hinge"/>
+      <light/>
+      <body name="walker/ground">
+        <body name="walker/pelvis">
+          <inertial pos=" -0.0707 0 0" mass="11.777" fullinertia="0.1028 0.0871 0.0579 0 0 0"/>
+          <body name="walker/femur_r">
+            <inertial pos=" 0 -0.17 0" mass="9.3014" fullinertia="0.1339 0.0351 0.1412 0 0 0"/>
+            <body name="walker/tibia_r">
+              <inertial pos=" 0 -0.1867 0" mass="3.7075" fullinertia="0.0504 0.0051 0.0511 0 0 0"/>
+              <body name="walker/talus_r">
+                <inertial pos=" 0 0 0" mass="0.1" fullinertia="0.001 0.001 0.001 0 0 0"/>
+                <body name="walker/calcn_r">
+                  <inertial pos=" 0.1 0.03 0" mass="1.25" fullinertia="0.0014 0.0039 0.0041 0 0 0"/>
+                  <body name="walker/toes_r">
+                    <inertial pos=" 0.0346 0.006 -0.0175" mass="0.2166" fullinertia="0.0001 0.0002 0.0001 0 0 0"/>
+                    <geom group="1" name="walker/bofoot" type="mesh" mesh="walker/bofoot" class="walker/"/>
+                  </body>
+                  <geom group="1" name="walker/foot" type="mesh" mesh="walker/foot" class="walker/"/>
+                </body>
+                <geom group="1" name="walker/talus" type="mesh" mesh="walker/talus" class="walker/"/>
+              </body>
+              <geom group="1" name="walker/tibia" type="mesh" mesh="walker/tibia" class="walker/"/>
+              <geom group="1" name="walker/fibula" type="mesh" mesh="walker/fibula" class="walker/"/>
+            </body>
+            <geom group="1" name="walker/femur" type="mesh" mesh="walker/femur" class="walker/"/>
+          </body>
+          <body name="walker/femur_l">
+            <inertial pos=" 0 -0.17 0" mass="9.3014" fullinertia="0.1339 0.0351 0.1412 0 0 0"/>
+            <body name="walker/tibia_l">
+              <inertial pos=" 0 -0.1867 0" mass="3.7075" fullinertia="0.0504 0.0051 0.0511 0 0 0"/>
+              <body name="walker/talus_l">
+                <inertial pos=" 0 0 0" mass="0.1" fullinertia="0.001 0.001 0.001 0 0 0"/>
+                <body name="walker/calcn_l">
+                  <inertial pos=" 0.1 0.03 0" mass="1.25" fullinertia="0.0014 0.0039 0.0041 0 0 0"/>
+                  <body name="walker/toes_l">
+                    <inertial pos=" 0.0346 0.006 0.0175" mass="0.2166" fullinertia="0.0001 0.0002 0.0001 0 0 0"/>
+                    <geom group="1" name="walker/l_bofoot" type="mesh" mesh="walker/l_bofoot" class="walker/"/>
+                  </body>
+                  <geom group="1" name="walker/l_foot" type="mesh" mesh="walker/l_foot" class="walker/"/>
+                </body>
+                <geom group="1" name="walker/l_talus" type="mesh" mesh="walker/l_talus" class="walker/"/>
+              </body>
+              <geom group="1" name="walker/l_tibia" type="mesh" mesh="walker/l_tibia" class="walker/"/>
+              <geom group="1" name="walker/l_fibula" type="mesh" mesh="walker/l_fibula" class="walker/"/>
+            </body>
+            <geom group="1" name="walker/l_femur" type="mesh" mesh="walker/l_femur" class="walker/"/>
+          </body>
+          <body name="walker/torso">
+            <inertial pos=" -0.03 0.32 0" mass="34.2366" fullinertia="1.4745 0.7555 1.4314 0 0 0"/>
+            <body name="walker/head"/>
+            <geom group="1" name="walker/hat_spine" type="mesh" mesh="walker/hat_spine" class="walker/"/>
+            <geom group="1" name="walker/hat_jaw" type="mesh" mesh="walker/hat_jaw" class="walker/"/>
+            <geom group="1" name="walker/hat_skull" type="mesh" mesh="walker/hat_skull" class="walker/"/>
+            <geom group="1" name="walker/hat_ribs" type="mesh" mesh="walker/hat_ribs" class="walker/"/>
+          </body>
+          <geom group="1" name="walker/sacrum" type="mesh" mesh="walker/sacrum" class="walker/"/>
+          <geom group="1" name="walker/pelvis" type="mesh" mesh="walker/pelvis" class="walker/"/>
+          <geom group="1" name="walker/l_pelvis" type="mesh" mesh="walker/l_pelvis" class="walker/"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <tendon/>
+  <actuator/>
+  <sensor/>
+</mujoco>
